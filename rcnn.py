@@ -30,3 +30,35 @@ class CNN_RNN_FER(nn.Module):
         final_feat = lstm_out[:, -1, :]
         logits = self.fc(final_feat)
         return logits
+
+model = CNN_RNN_FER()   # or ViT_FER()
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+for epoch in range(50):
+    model.train()
+    running_loss = 0.0
+    for images, labels in train_loader:
+        optimizer.zero_grad()
+        outputs = model(images)              # forward pass
+        loss = criterion(outputs, labels)    # compute loss
+        loss.backward()                      # backpropagate
+        optimizer.step()                     # update weights
+        running_loss += loss.item()
+    avg_train_loss = running_loss / len(train_loader)
+
+    # Validation
+    model.eval()
+    correct = total = 0
+    val_loss = 0.0
+    with torch.no_grad():
+        for images, labels in val_loader:
+            outputs = model(images)
+            val_loss += criterion(outputs, labels).item()
+            _, preds = torch.max(outputs, 1)
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
+    avg_val_loss = val_loss / len(val_loader)
+    val_acc = correct / total
+    print(f"Epoch {epoch+1}: Train Loss={avg_train_loss:.3f}, Val Loss={avg_val_loss:.3f}, Val Acc={val_acc:.3f}")
+    # (Save best model based on val_acc)
