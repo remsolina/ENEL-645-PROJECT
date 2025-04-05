@@ -4,7 +4,7 @@ This project aims to develop a deep learning model for facial expression recogni
 
 ## Dataset
 
-The dataset used in this project consists of grayscale facial images divided into "train" and "test" folders. The "train" folder is further split into training and validation sets using stratified sampling. Data augmentation techniques, such as random horizontal flipping and rotations, are applied to enhance the model's robustness.
+The dataset used in this project consists of grayscale facial images divided into "train" and "test" folders. The "train" folder is further split into training and validation sets using stratified sampling. Data augmentation techniques, such as random horizontal flipping and rotations, are applied to enhance the model's robustness. Dataset can be found here: https://www.kaggle.com/datasets/msambare/fer2013/data
 
 ## Approaches
 
